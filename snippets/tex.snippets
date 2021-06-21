@@ -28,7 +28,7 @@ snippet thm thm (or arbitrary) environment with optional argument
 	\\begin[${1:author}]{${2:thm}}
 		${0:${VISUAL}}
 	\\end{$2}
-snippet center center environment
+snippet ce center environment
 	\\begin{center}
 		${0:${VISUAL}}
 	\\end{center}
@@ -62,13 +62,21 @@ snippet eq* unnumbered equation environment
 # Unnumbered Equation
 snippet \ unnumbered equation: \[ ... \]
 	\\[
-		${0:${VISUAL}}
+		${1:${VISUAL}}
 	\\]
+	$0
 # Equation array
 snippet eqnarray eqnarray environment
 	\\begin{eqnarray}
-		${0:${VISUAL}}
+		${1:${VISUAL}}
 	\\end{eqnarray}
+	$0
+# Equation array
+snippet eqnarray* eqnarray* environment
+	\\begin{eqnarray*}
+		${1:${VISUAL}}
+	\\end{eqnarray*}
+	$0
 # Label
 snippet lab \label
 	\\label{${1:eq:}${2:fig:}${3:tab:}${0}}
@@ -175,9 +183,9 @@ snippet ni \noindent
 snippet itd description \item
 	\\item[${1:description}] ${0:item}
 snippet figure reference to a figure
-	${1:Figure}~\\ref{${2:fig:}}
+	${1:Figure}~\\ref{fig:${2:}}
 snippet table reference to a table
-	${1:Table}~\\ref{${2:tab:}}
+	${1:Table}~\\ref{tab:${2}}${0}
 snippet listing reference to a listing
 	${1:Listing}~\\ref{${2:list}}
 snippet section reference to a section
@@ -231,8 +239,7 @@ snippet mf mathfrak
 	\\mathfrak{${1:${VISUAL:text}}}${0}
 snippet mc mathcal
 	\\mathcal{${1:${VISUAL:text}}}${0}
-snippet ms mathscr
-	\\mathscr{${1:${VISUAL:text}}}${0}
+# snippet ms mathscr \\mathscr{${1:${VISUAL:text}}}${0}
 #misc
 snippet ft \footnote
 	\\footnote{${1:${VISUAL:text}}}${0}
@@ -283,15 +290,15 @@ snippet tikzcd* tikzcd environment in equation*
 snippet stackrel \stackrel{}{}
 	\\stackrel{${1:above}}{${2:below}} ${0}
 snippet frac \frac{}{}
-	\\frac{${1:num}}{${2:denom}} ${0}
+	\\frac{${1:num}}{${2:denom}}${0}
 snippet prod \prod^{}_{}
 	\\prod^{${1:n}}_{${2:i=1}} ${0}
 snippet sum \sum^{}_{}
 	\\sum^{${1:n}}_{${2:i=1}} ${0}
 snippet lim \lim_{}
 	\\lim_{${1:n \\to \\infty}} ${0}
-snippet frame frame environment
-	\\begin{frame}[${1:t}]
+snippet frm frame environment
+	\\begin{frame}[${1:c}]
 		\frametitle{${2:title}}
 		\framesubtitle{${3:subtitle}}
 		${0:${VISUAL}}
@@ -338,8 +345,6 @@ snippet lr{ left\{ right\}
 	\\left\\{ ${0:${VISUAL}} \\right\\}
 snippet lr[ left[ right]
 	\\left[ ${0:${VISUAL}} \\right]
-snippet lra langle rangle
-	\\langle ${0:${VISUAL}} \\rangle
 # Code listings
 snippet lst
 	\\begin{listing}[language=${1:language}]

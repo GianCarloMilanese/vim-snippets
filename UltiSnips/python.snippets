@@ -120,7 +120,8 @@ def triple_quotes_handle_trailing(snip, quoting_style):
 		snip.rv = snip.c
 
 def get_style(snip):
-	style = snip.opt("g:ultisnips_python_style", "normal")
+	# style = snip.opt("g:ultisnips_python_style", "normal")
+	style = snip.opt("g:ultisnips_python_style", "numpy")
 
 	if    style == "doxygen": return DOXYGEN
 	elif  style == "sphinx": return SPHINX
@@ -717,6 +718,26 @@ snippet pmdoc "pocoo style module doc string" b
 	:copyright: (c) `date +%Y` by ${2:YOUR_NAME}.
 	:license: ${3:LICENSE_NAME}, see LICENSE for more details.
 """
+$0
+endsnippet
+
+snippet plt "matplotlib"
+import matplotlib.pyplot as plt
+$0
+endsnippet
+
+snippet nx "networkx"
+import networkx as nx
+$0
+endsnippet
+
+snippet np "numpy"
+import numpy as np
+$0
+endsnippet
+
+snippet pd "pandas"
+import pandas as pd
 $0
 endsnippet
 

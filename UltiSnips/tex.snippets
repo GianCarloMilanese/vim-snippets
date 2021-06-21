@@ -5,54 +5,54 @@ extends texmath
 global !p
 
 def create_table(snip):
-	rows = snip.buffer[snip.line].split('x')[0]
-	cols = snip.buffer[snip.line].split('x')[1]
+    rows = snip.buffer[snip.line].split('x')[0]
+    cols = snip.buffer[snip.line].split('x')[1]
 
-	int_val = lambda string: int(''.join(s for s in string if s.isdigit()))
-	
-	rows = int_val(rows)
-	cols = int_val(cols)
+    int_val = lambda string: int(''.join(s for s in string if s.isdigit()))
 
-	offset = cols + 1
-	old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
-	
-	snip.buffer[snip.line] = ''
-	
-	final_str = old_spacing + "\\begin{tabular}{|" + "|".join(['$' + str(i + 1) for i in range(cols)]) + "|}\n"
+    rows = int_val(rows)
+    cols = int_val(cols)
 
-	for i in range(rows):
-		final_str += old_spacing + '\t'
-		final_str += " & ".join(['$' + str(i * cols + j + offset) for j in range(cols)])
+    offset = cols + 1
+    old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
 
-		final_str += " \\\\\\\n"
+    snip.buffer[snip.line] = ''
 
-	final_str += old_spacing + "\\end{tabular}\n$0"
+    final_str = old_spacing + "\\begin{tabular}{|" + "|".join(['$' + str(i + 1) for i in range(cols)]) + "|}\n"
 
-	snip.expand_anon(final_str)
+    for i in range(rows):
+        final_str += old_spacing + '\t'
+        final_str += " & ".join(['$' + str(i * cols + j + offset) for j in range(cols)])
+
+        final_str += " \\\\\\\n"
+
+    final_str += old_spacing + "\\end{tabular}\n$0"
+
+    snip.expand_anon(final_str)
 
 def add_row(snip):
-	row_len = int(''.join(s for s in snip.buffer[snip.line] if s.isdigit()))
-	old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
+    row_len = int(''.join(s for s in snip.buffer[snip.line] if s.isdigit()))
+    old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
 
-	snip.buffer[snip.line] = ''
-	
-	final_str = old_spacing
-	final_str += " & ".join(['$' + str(j + 1) for j in range(row_len)])
-	final_str += " \\\\\\"
+    snip.buffer[snip.line] = ''
 
-	snip.expand_anon(final_str)
+    final_str = old_spacing
+    final_str += " & ".join(['$' + str(j + 1) for j in range(row_len)])
+    final_str += " \\\\\\"
+
+    snip.expand_anon(final_str)
 
 endglobal
 
-snippet "\\?b(egin)?" "begin{} / end{}" ir
+snippet "\\?b(egin)?" "begin{} / end{}" br
 \begin{${1:something}}
-	${0:${VISUAL}}
+    ${0:${VISUAL}}
 \end{$1}
 endsnippet
 
 snippet abs "abstract environment" b
 \begin{abstract}
-	$0
+    $0
 \end{abstract}
 endsnippet
 
@@ -63,7 +63,7 @@ $0${2/(?<=.)(c|l|r)|./(?1: & )/g}
 endsnippet
 
 pre_expand "create_table(snip)"
-snippet "gentbl(\d+)x(\d+)" "Generate table of *width* by *height*" r  
+snippet "gentbl(\d+)x(\d+)" "Generate table of *width* by *height*" r
 endsnippet
 
 pre_expand "add_row(snip)"
@@ -72,39 +72,45 @@ endsnippet
 
 snippet table "Table environment" b
 \begin{table}[${1:htpb}]
-	\centering
-	\caption{${2:caption}}
-	\label{tab:${3:label}}
-	\begin{${4:t}${4/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}{${5:c}}
-	$0${5/(?<=.)(c|l|r)|./(?1: & )/g}
-	\end{$4${4/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}
+    \centering
+    \begin{${4:t}${4/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}{${5:c}}
+    $0${5/(?<=.)(c|l|r)|./(?1: & )/g}
+    \end{$4${4/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}
+    \caption{${2:caption}}
+    \label{tab:${3:label}}
 \end{table}
 endsnippet
 
 snippet fig "Figure environment" b
-\begin{figure}[${2:htpb}]
-	\centering
-	\includegraphics[width=${3:0.8}\linewidth]{${4:name.ext}}
-	\caption{${4/(\w+)\.\w+/\u$1/}$0}%
-	\label{fig:${4/(\w+)\.\w+/$1/}}
+\begin{figure}[${2:htpb}] % ${7:${5/\$//ga}}
+    \centering
+    \includegraphics[width=${3:0.8}\linewidth]{${4:name.ext}}
+    \caption{${5}$0}%
+    \label{fig:${6:${5/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
 \end{figure}
 endsnippet
 
 snippet enum "Enumerate" b
 \begin{enumerate}
-	\item $0
+    \item $0
 \end{enumerate}
+endsnippet
+
+snippet noitem "Itemize [noitemsep]" b
+\begin{itemize}[noitemsep]
+    \item $1
+\end{itemize}$0
 endsnippet
 
 snippet item "Itemize" b
 \begin{itemize}
-	\item $0
-\end{itemize}
+    \item $1
+\end{itemize}$0
 endsnippet
 
 snippet desc "Description" b
 \begin{description}
-	\item[$1] $0
+    \item[$1] $0
 \end{description}
 endsnippet
 
@@ -131,6 +137,8 @@ snippet sec "Section"
 \label{sec:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
 
 $0
+
+% End of Section
 endsnippet
 
 snippet sec* "Section"
@@ -146,11 +154,12 @@ snippet sub "Subsection"
 \label{sub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
 
 $0
+
+% End of Subsection
 endsnippet
 
 snippet sub* "Subsection"
 \subsection*{${1:${VISUAL:subsection name}}}%
-\label{sub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
 
 ${0}
 endsnippet
@@ -164,14 +173,12 @@ endsnippet
 
 snippet ssub* "Subsubsection"
 \subsubsection*{${1:${VISUAL:subsubsection name}}}%
-\label{ssub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
 
 ${0}
 endsnippet
 
 snippet par "Paragraph"
 \paragraph{${1:${VISUAL:paragraph name}}}%
-\label{par:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
 
 $0
 endsnippet
@@ -204,7 +211,7 @@ snippet pac "Package" b
 \usepackage`!p snip.rv='[' if t[1] else ""`${1:options}`!p snip.rv = ']' if t[1] else ""`{${2:package}}$0
 endsnippet
 
-snippet lp "Long parenthesis"
+snippet lb "Long brackets"
 \left(${1:${VISUAL:contents}}\right)$0
 endsnippet
 
@@ -243,13 +250,56 @@ snippet glnl "New long glossary item" b
 endsnippet
 # vim:ft=snippets:
 
-snippet binom "\binom^{}_{}" i
-\binom{${1:N}}{${2:K}}${0}
+# My snippets
+
+# Environments
+
+snippet pf "Proof" b
+\begin{proof}\leavevmode
+    $0
+\end{proof}
 endsnippet
 
-snippet sum "\sum^{}_{}" i
-\sum^{${1:n}}_{${2:i=1}}${0}
+snippet thm "Theorem" b
+\begin{theorem}[${1}]
+\label{thm:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+    $0
+\end{theorem}
 endsnippet
+
+snippet lem "Lemma" b
+\begin{lemma}[${1}]
+\label{lemma:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+    $3
+\end{lemma}
+$0
+endsnippet
+
+snippet prop "Proposition" b
+\begin{prop}[${1}]
+\label{prop:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+    $3
+\end{prop}
+$0
+endsnippet
+
+snippet def "Definition" b
+\begin{definition}[${1}]
+\label{def:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+    $3
+\end{definition}
+$0
+endsnippet
+
+snippet ex "Example" b
+\begin{example}[${1}]
+\label{ex:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+    $3
+\end{example}
+$0
+endsnippet
+
+# Text
 
 snippet ita "\textit{}" i
 \textit{${1}}${0}
@@ -259,8 +309,224 @@ snippet bf "\textbf{}" i
 \textbf{${1}}${0}
 endsnippet
 
-snippet id "_{}" i
+snippet tt "\texttt{}" i
+\texttt{${1}}${0}
+endsnippet
+
+snippet "\\?ld" "\ldots" ir
+\ldots
+endsnippet
+
+# Text
+
+snippet "\\?text" "\text{}" ir
+\text{${1}}${0}
+endsnippet
+
+snippet "\\?tes" "\text{}" ir
+\text{ ${1} }${0}
+endsnippet
+
+# snippet "\\?te" "\text{}" r
+# \text{${1}}${0}
+# endsnippet
+
+snippet " "Latex double quotes" i
+\`\`${1}''${0}
+endsnippet
+
+snippet ' "Latex single quotes" i
+\`${1}'${0}
+endsnippet
+
+# Math
+
+snippet "lra" "langle rangle" ir
+\langle ${1} \rangle${0}
+endsnippet
+
+snippet "\\?frac" "\frac{}{}" ir
+\frac{${1:1}}{${2:2}}${0}
+endsnippet
+
+snippet "\\?quot" "\sfrac{}{}" ir
+\sfrac{${1:P}}{${2:[\sim]}_{${3:\alpha}}}${0}
+endsnippet
+
+snippet "\\?binom" "\binom^{}_{}" i
+\binom{${1:N}}{${2:K}}${0}
+endsnippet
+
+snippet "\\?sum" "\sum^{}_{}" ir
+\sum^{${1:n}}_{${2:i=1}}${0}
+endsnippet
+
+snippet "\\?forx" "\forall x\in X" ir
+\forall ${1:x} \in ${2:X} ${0}
+endsnippet
+
+snippet \{ "\{ \}" i
+\\{ ${1} \\}${0}
+endsnippet
+
+snippet bm "\bm{}" i
+\bm{${1}}${0}
+endsnippet
+
+snippet bb "\mathbb{}" i
+\mathbb{${1}}${0}
+endsnippet
+
+snippet bfm "\mathbf{}" i
+\mathbf{${1}}${0}
+endsnippet
+
+snippet ttm "\mathtt{}" i
+\mathtt{${1}}${0}
+endsnippet
+
+snippet e "\emph{}" i
+\\emph{$1}${0}
+endsnippet
+
+snippet "\\?itam" "\mathit{}" ir
+\\mathit{${1:${VISUAL:text}}}${0}
+endsnippet
+
+snippet "\\?mc" "\mathcal{}" ir
+\\mathcal{${1:${VISUAL:text}}}${0}
+endsnippet
+
+# snippet "\_" "_{}" ir
+# _{${1:i+1}}${0}
+# endsnippet
+
+snippet "\_" "_{}" ir
+_{${1:\X}}${0}
+endsnippet
+
+snippet "\^" "^{}" ir
+^{${1:-1}}${0}
+endsnippet
+
+snippet "\\?id" "_{}" ir
 _{${1:text}}${0}
+endsnippet
+
+snippet "olsi" "\olsi{}" i
+\olsi{${1:A}}${0}
+endsnippet
+
+snippet "\\?bar" "\bar{}" ir
+\bar{${1:A}}${0}
+endsnippet
+
+# Logic
+
+snippet "\\?inter" "|| ||" ir
+|\!| ${1:A} |\!|${0}
+endsnippet
+
+snippet "\\?intb" "[[ ]]" ir
+[\![ ${1:A} ]\!]${0}
+endsnippet
+
+snippet "st" "such that" r
+such that$0
+endsnippet
+
+snippet "sst" "such that" r
+\;|\!\; $0
+endsnippet
+
+snippet "stt" "thicker such that" r
+\;[\!]\; $0
+endsnippet
+
+# Thesis
+
+snippet DL "DL"
+$\mathcal{DL}$${0}
+endsnippet
+
+snippet LP "LP"
+$\mathcal{LP}$${0}
+endsnippet
+
+snippet nlp "natural language processing"
+natural language processing${0}
+endsnippet
+
+snippet clp "Constraint Logic Programming"
+constraint logic programming${0}
+endsnippet
+
+snippet fol "FOL"
+\gls{fol}${0}
+endsnippet
+
+snippet fot "FOT"
+\gls{fot}${0}
+endsnippet
+
+snippet fots "FOTs"
+\glspl{fot}${0}
+endsnippet
+
+snippet thosf "Theta-OSF" i
+$\Theta$-OSF${0}
+endsnippet
+
+snippet glbs "GLBs" i
+GLBs${0}
+endsnippet
+
+snippet glb "GLB" i
+GLB${0}
+endsnippet
+
+snippet dfs "DFS"
+\gls{dfs}${0}
+endsnippet
+
+snippet "os?f?a" "OSF algebra" ir
+\osf algebra${0}
+endsnippet
+
+snippet "os?f?c" "OSF constraint" ir
+\osf constraint${0}
+endsnippet
+
+snippet osfl "OSF logic" i
+\osf logic${0}
+endsnippet
+
+snippet osfg "OSF graph" i
+\osf graph${0}
+endsnippet
+
+snippet osft "OSF term" i
+\osf term${0}
+endsnippet
+
+snippet osf "OSF" i
+\osf${0}
+endsnippet
+
+# snippet osf "order-sorted feature"
+# \gls{osf}${0}
+# endsnippet
+
+snippet OSF "OSF"
+\OSF${0}
+endsnippet
+
+# snippet cedar "CEDAR"
+# \$\mathcal{CEDAR}\$${0}
+# endsnippet
+
+snippet "ceda?r?" "CEDAR" r
+\gls{cedar}${0}
 endsnippet
 
 snippet fotj "\judg{}{}{}{}{}{}{}" i
@@ -270,4 +536,373 @@ endsnippet
 snippet osfj "\judg{}{}{}{}{}{}{}" i
 \judg{${1:\gamma_1}}{${2:\gamma_2}}{${3:\psi_1}}{${4:\psi_2}}{${5:\psi}}{${6:\gamma'_1}}{${7:\gamma'_2}}${0}
 endsnippet
+
+snippet new "\new{}" i
+\new{${1}} ${0}
+endsnippet
+
+# CODE
+
+snippet jmint "Java code" b
+\begin{listing}[htpb] % ${3:${1/\$//ga}}
+\begin{minted}{java}
+$5
+\end{minted}
+\caption{$1}
+\label{lst:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+\end{listing}
+$0
+endsnippet
+
+snippet itmp "Temp Itemize" b
+\tmp{$1}{%
+    \begin{itemize}[noitemsep]
+        \item $2
+    \end{itemize}
+}$0
+endsnippet
+
+snippet "\\?ilt" "Inline Todo" r
+\todo[inline]{$1}$0
+endsnippet
+
+snippet tmp "Temp" b
+\tmp{$1}{%
+    $2
+}$0
+endsnippet
+
+snippet ip "Inline Python" i
+\ilp{$1}$0
+endsnippet
+
+snippet ij "Inline Java" i
+\ilj{$1}$0
+endsnippet
+
+snippet cmint "Centered minted environment" b
+\begin{figure}[${1:htpb!}]
+\centering
+\begin{cminted}{${2:prolog}}
+$3
+\end{cminted}
+\end{figure}
+$0
+endsnippet
+
+snippet ilc "Inline Code"
+\mintinline{${1:prolog}}{$2}$0
+endsnippet
+
+snippet ilp "Inline Python"
+\ilp{$1}$0
+endsnippet
+
+snippet ilpl "Inline Prolog"
+\ilpl{$1}$0
+endsnippet
+
+# logic and other
+
+snippet re "recursively enumerable"
+recursively enumerable$0
+endsnippet
+
+snippet fo "first-order"
+first-order$0
+endsnippet
+
+snippet so "second-order"
+second-order$0
+endsnippet
+
+snippet mv "many-valued"
+many-valued$0
+endsnippet
+
+snippet ms "many-sorted"
+many-sorted$0
+endsnippet
+
+snippet kg "knowledge graph"
+knowledge graph$0
+endsnippet
+
+snippet Krr "kr&r"
+Knowledge Representation and Reasoning$0
+endsnippet
+
+snippet krr "kr&r"
+\gls{krr}$0
+endsnippet
+
+snippet kr "knowledge representation"
+knowledge representation$0
+endsnippet
+
+snippet ab "ABox"
+ABox$0
+endsnippet
+
+snippet tb "TBox"
+TBox$0
+endsnippet
+
+snippet pov "point of view"
+point of view$0
+endsnippet
+
+snippet iff "if and only if"
+if and only if$0
+endsnippet
+
+snippet pts "psi term" i
+\glspl{pt}$0
+endsnippet
+
+snippet pt "psi term" i
+\gls{pt}$0
+endsnippet
+
+# snippet os "order-sorted"
+# order-sorted$0
+# endsnippet
+
+snippet kb "knowledge base"
+knowledge base$0
+endsnippet
+
+snippet sparql "SPARQL"
+\gls{sparql}$0
+endsnippet
+
+snippet rdf "RDF"
+\gls{rdf}$0
+endsnippet
+
+snippet rdfs "RDFS"
+\gls{rdfs}$0
+endsnippet
+
+snippet owl "OWL"
+\gls{owl}$0
+endsnippet
+
+snippet dls "description logic"
+\glspl{dl}$0
+endsnippet
+
+snippet dl "description logic"
+\gls{dl}$0
+endsnippet
+
+snippet SW "Semantic Web"
+Semantic Web$0
+endsnippet
+
+snippet sw "Semantic Web"
+Semantic Web$0
+endsnippet
+
+snippet "con?" "constraint" r
+constraint$0
+endsnippet
+
+snippet oo "object-oriented"
+object-oriented$0
+endsnippet
+
+snippet oop "object-oriented programming"
+object-oriented programming$0
+endsnippet
+
+snippet lp "logic programming"
+logic programming$0
+endsnippet
+
+snippet alc "DL ALC"
+$\mathcal{ALC}$$0
+endsnippet
+
+snippet lx "x1 ... xn" i
+${1:x}_1, \ldots, $1_${2:n}$0
+endsnippet
+
+# other
+
+snippet wrt "with respect to"
+with respect to$0
+endsnippet
+
+# Algorithm
+
+snippet algo "algpseudocode" b
+\begin{algorithm}
+\caption{${1:Caption}}
+\label{alg:${2:label}}
+\begin{algorithmic}[1]
+    \Function{${3:Function Name}}{$${4:Function Parameters}$}
+    \State ${5:Function Code}
+    \EndFunction
+\end{algorithmic}
+\end{algorithm}
+endsnippet
+
+# temporary
+
+snippet so "set-of" i
+\textbf{set-of}($1)$0
+endsnippet
+
+snippet son "nth set-of" i
+\textbf{set-of}^n($1)$0
+endsnippet
+
+# GLossaries \gls command
+
+snippet g "gls" i
+\gls{$1}$0
+endsnippet
+
+snippet gs "gls{sort}" i
+\gls{sort}$0
+endsnippet
+
+snippet gt "gls{tag}" i
+\gls{tag}$0
+endsnippet
+
+snippet gf "gls{feat}" i
+\gls{feat}$0
+endsnippet
+
+snippet pg "pgls"
+\pgls{$1}$0
+endsnippet
+
+snippet pgs "pgls*"
+\pgls*{$1}$0
+endsnippet
+
+snippet "gpl?" "glspl" ir
+\glspl{$1}$0
+endsnippet
+
+snippet "gpl?s" "glspl*" ir
+\glspl*{$1}$0
+endsnippet
+
+# Citing
+
+snippet quote "displayquote"
+\begin{displayquote}
+$0
+\end{displayquote}
+endsnippet
+
+snippet Cr "Clever ref"
+\Cref{$1}$0
+endsnippet
+
+snippet cr "Clever ref"
+\cref{$1}$0
+endsnippet
+
+snippet tc "textcite"
+\textcite{$1}$0
+endsnippet
+
+snippet pc "parencite"
+\parencite{$1}$0
+endsnippet
+
+snippet c "cite"
+\cite{$1}$0
+endsnippet
+
+snippet cak "cite Ait-Kaci"
+\cite{AitKaci19$1}$0
+endsnippet
+
+snippet tcak "textcite Ait-Kaci"
+\textcite{AitKaci19$1}$0
+endsnippet
+
+snippet pcak "parencite Ait-Kaci"
+\parencite{AitKaci19$1}$0
+endsnippet
+
+# OSF colors
+
+# snippet sc "Sort Color" i
+# \sortcol{$1}$0
+# endsnippet
+
+# snippet tc "Tag Color" i
+# \tagcol{$1}$0
+# endsnippet
+
+# snippet fc "Feat Color" i
+# \featcol{$1}$0
+# endsnippet
+
+
+snippet mcol "multicol"
+\multicolumn{$1}{$2}{$3}$0
+endsnippet
+
+################################################################################
+#                                     misc                                     #
+################################################################################
+
+snippet ss "semantic similarity"
+semantic similarity$0
+endsnippet
+
+snippet Ss "Semantic similarity"
+Semantic similarity$0
+endsnippet
+
+snippet vx "Vec x" i
+\vec{x}$0
+endsnippet
+
+snippet vy "Vec y" i
+\vec{y}$0
+endsnippet
+
+snippet wt "well-typed"
+well-typed$0
+endsnippet
+
+snippet mgu "Most General Unifier"
+most general unifier$0
+endsnippet
+
+
+snippet ifs "Inequated Feature Structure"
+inequated feature structure$0
+endsnippet
+
+snippet fs "Feature Structure"
+feature structure$0
+endsnippet
+
+snippet dnf "Disjunctive Normal Form"
+disjunctive normal form$0
+endsnippet
+
+snippet lub "Least Upper Bound"
+least upper bound$0
+endsnippet
+
+snippet mlb "Maximal Lower Bound"
+maximal lower bound$0
+endsnippet
+
+
+snippet GCM "Gian Carlo Milanese"
+Gian Carlo Milanese$0
+endsnippet
+
 
