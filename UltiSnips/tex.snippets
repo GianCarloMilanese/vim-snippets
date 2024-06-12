@@ -1,5 +1,4 @@
-priority -50
-
+priority -50 
 extends texmath
 
 global !p
@@ -46,13 +45,13 @@ endglobal
 
 snippet "\\?b(egin)?" "begin{} / end{}" br
 \begin{${1:something}}
-    ${0:${VISUAL}}
+  ${0:${VISUAL}}
 \end{$1}
 endsnippet
 
 snippet abs "abstract environment" b
 \begin{abstract}
-    $0
+  $0
 \end{abstract}
 endsnippet
 
@@ -72,45 +71,57 @@ endsnippet
 
 snippet table "Table environment" b
 \begin{table}[${1:htpb}]
-    \centering
-    \begin{${4:t}${4/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}{${5:c}}
-    $0${5/(?<=.)(c|l|r)|./(?1: & )/g}
-    \end{$4${4/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}
-    \caption{${2:caption}}
-    \label{tab:${3:label}}
+  \centering
+  \begin{${4:t}${4/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}{${5:c}}
+  $0${5/(?<=.)(c|l|r)|./(?1: & )/g}
+  \end{$4${4/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}
+  \caption{${2:caption}}
+  \label{tab:${3:label}}
 \end{table}
 endsnippet
 
 snippet fig "Figure environment" b
-\begin{figure}[${2:htpb}] % ${7:${5/\$//ga}}
-    \centering
-    \includegraphics[width=${3:0.8}\linewidth]{${4:name.ext}}
-    \caption{${5}$0}%
-    \label{fig:${6:${5/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+\begin{figure}[${2:htpb}]
+  \centering
+  \includegraphics[width=${3:0.8}\textwidth]{${4:name.ext}}
+  \caption{${5}$0}%
+  \label{fig:${6:${5/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
 \end{figure}
+endsnippet
+
+snippet 1. "Enumerate" b
+\begin{enumerate}
+  \item $0
+\end{enumerate}
 endsnippet
 
 snippet enum "Enumerate" b
 \begin{enumerate}
-    \item $0
+  \item $0
 \end{enumerate}
 endsnippet
 
 snippet noitem "Itemize [noitemsep]" b
 \begin{itemize}[noitemsep]
-    \item $1
+  \item $1
+\end{itemize}$0
+endsnippet
+
+snippet - "Itemize" b
+\begin{itemize}
+  \item $1
 \end{itemize}$0
 endsnippet
 
 snippet item "Itemize" b
 \begin{itemize}
-    \item $1
+  \item $1
 \end{itemize}$0
 endsnippet
 
 snippet desc "Description" b
 \begin{description}
-    \item[$1] $0
+  \item[$1] $0
 \end{description}
 endsnippet
 
@@ -137,8 +148,6 @@ snippet sec "Section"
 \label{sec:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
 
 $0
-
-% End of Section
 endsnippet
 
 snippet sec* "Section"
@@ -154,8 +163,6 @@ snippet sub "Subsection"
 \label{sub:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
 
 $0
-
-% End of Subsection
 endsnippet
 
 snippet sub* "Subsection"
@@ -256,21 +263,28 @@ endsnippet
 
 snippet pf "Proof" b
 \begin{proof}\leavevmode
-    $0
+  $0
 \end{proof}
+endsnippet
+
+snippet cor "Corollary" b
+\begin{corollary}[${1}]
+\label{cor:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
+  $0
+\end{corollary}
 endsnippet
 
 snippet thm "Theorem" b
 \begin{theorem}[${1}]
 \label{thm:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-    $0
+  $0
 \end{theorem}
 endsnippet
 
 snippet lem "Lemma" b
 \begin{lemma}[${1}]
 \label{lemma:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-    $3
+  $3
 \end{lemma}
 $0
 endsnippet
@@ -278,15 +292,15 @@ endsnippet
 snippet prop "Proposition" b
 \begin{prop}[${1}]
 \label{prop:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-    $3
+  $3
 \end{prop}
 $0
 endsnippet
 
-snippet def "Definition" b
+snippet defn "Definition" b
 \begin{definition}[${1}]
 \label{def:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-    $3
+  $3
 \end{definition}
 $0
 endsnippet
@@ -294,7 +308,7 @@ endsnippet
 snippet ex "Example" b
 \begin{example}[${1}]
 \label{ex:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/ga}}}
-    $3
+  $3
 \end{example}
 $0
 endsnippet
@@ -319,7 +333,7 @@ endsnippet
 
 # Text
 
-snippet "\\?text" "\text{}" ir
+snippet "\\?te" "\text{}" ir
 \text{${1}}${0}
 endsnippet
 
@@ -385,12 +399,16 @@ snippet ttm "\mathtt{}" i
 \mathtt{${1}}${0}
 endsnippet
 
-snippet e "\emph{}" i
+snippet emph "\emph{}" i
 \\emph{$1}${0}
 endsnippet
 
 snippet "\\?itam" "\mathit{}" ir
 \\mathit{${1:${VISUAL:text}}}${0}
+endsnippet
+
+snippet "\\?msf" "\mathsf{}" ir
+\\mathsf{${1:${VISUAL:text}}}${0}
 endsnippet
 
 snippet "\\?mc" "\mathcal{}" ir
@@ -402,15 +420,11 @@ endsnippet
 # endsnippet
 
 snippet "\_" "_{}" ir
-_{${1:\X}}${0}
+_{${1:i}}${0}
 endsnippet
 
 snippet "\^" "^{}" ir
 ^{${1:-1}}${0}
-endsnippet
-
-snippet "\\?id" "_{}" ir
-_{${1:text}}${0}
 endsnippet
 
 snippet "olsi" "\olsi{}" i
@@ -453,6 +467,10 @@ snippet LP "LP"
 $\mathcal{LP}$${0}
 endsnippet
 
+snippet nl "natural language"
+natural language${0}
+endsnippet
+
 snippet nlp "natural language processing"
 natural language processing${0}
 endsnippet
@@ -461,16 +479,60 @@ snippet clp "Constraint Logic Programming"
 constraint logic programming${0}
 endsnippet
 
-snippet fol "FOL"
-\gls{fol}${0}
+snippet FOL "First-Order Logic"
+First-Order Logic${0}
 endsnippet
 
-snippet fot "FOT"
-\gls{fot}${0}
+snippet fol "first-order logic"
+first-order logic${0}
 endsnippet
 
-snippet fots "FOTs"
-\glspl{fot}${0}
+snippet FOT "First-Order Term"
+First-Order Term${0}
+endsnippet
+
+snippet rr "rewriting rule"
+rewriting rule${0}
+endsnippet
+
+snippet cf "context-free"
+context-free$0
+endsnippet
+
+snippet dcg "definite-clause grammar"
+definite-clause grammar${0}
+endsnippet
+
+snippet fg "feature graph"
+feature graph${0}
+endsnippet
+
+snippet lfg "lexical-functional grammar"
+lexical-functional grammar${0}
+endsnippet
+
+snippet ug "unification grammar"
+unification grammar${0}
+endsnippet
+
+snippet ps "phrase structure"
+phrase structure${0}
+endsnippet
+
+snippet ub "unification-based"
+unification-based${0}
+endsnippet
+
+snippet unif "unification"
+unification${0}
+endsnippet
+
+snippet fot "first-order term"
+first-order term${0}
+endsnippet
+
+snippet fots "first-order terms"
+first-order terms${0}
 endsnippet
 
 snippet thosf "Theta-OSF" i
@@ -486,7 +548,7 @@ GLB${0}
 endsnippet
 
 snippet dfs "DFS"
-\gls{dfs}${0}
+depth-first search${0}
 endsnippet
 
 snippet "os?f?a" "OSF algebra" ir
@@ -510,23 +572,15 @@ snippet osft "OSF term" i
 endsnippet
 
 snippet osf "OSF" i
-\osf${0}
+Order-Sorted Feature${0}
 endsnippet
-
-# snippet osf "order-sorted feature"
-# \gls{osf}${0}
-# endsnippet
 
 snippet OSF "OSF"
-\OSF${0}
+Order-Sorted Feature${0}
 endsnippet
 
-# snippet cedar "CEDAR"
-# \$\mathcal{CEDAR}\$${0}
-# endsnippet
-
 snippet "ceda?r?" "CEDAR" r
-\gls{cedar}${0}
+CEDAR${0}
 endsnippet
 
 snippet fotj "\judg{}{}{}{}{}{}{}" i
@@ -556,9 +610,9 @@ endsnippet
 
 snippet itmp "Temp Itemize" b
 \tmp{$1}{%
-    \begin{itemize}[noitemsep]
-        \item $2
-    \end{itemize}
+  \begin{itemize}[noitemsep]
+    \item $2
+  \end{itemize}
 }$0
 endsnippet
 
@@ -568,7 +622,7 @@ endsnippet
 
 snippet tmp "Temp" b
 \tmp{$1}{%
-    $2
+  $2
 }$0
 endsnippet
 
@@ -592,6 +646,22 @@ endsnippet
 
 snippet ilc "Inline Code"
 \mintinline{${1:prolog}}{$2}$0
+endsnippet
+
+snippet ilj "Inline Java"
+\mintinline{java}{$1}$0
+endsnippet
+
+snippet i "Inline Python"
+\ilp{$1}$0
+endsnippet
+
+snippet il "Inline prolog"
+\ilpl{$1}$0
+endsnippet
+
+snippet ilm "Inline prolog with math"
+\ilplm{$1}$0
 endsnippet
 
 snippet ilp "Inline Python"
@@ -620,9 +690,9 @@ snippet mv "many-valued"
 many-valued$0
 endsnippet
 
-snippet ms "many-sorted"
-many-sorted$0
-endsnippet
+# snippet ms "many-sorted"
+# many-sorted$0
+# endsnippet
 
 snippet kg "knowledge graph"
 knowledge graph$0
@@ -633,7 +703,15 @@ Knowledge Representation and Reasoning$0
 endsnippet
 
 snippet krr "kr&r"
-\gls{krr}$0
+KR\&R$0
+endsnippet
+
+snippet wn "WordNet"
+WordNet$0
+endsnippet
+
+snippet ir "information retrieval"
+information retrieval$0
 endsnippet
 
 snippet kr "knowledge representation"
@@ -652,48 +730,32 @@ snippet pov "point of view"
 point of view$0
 endsnippet
 
+snippet wlog "without loss of generality"
+without loss of generality$0
+endsnippet
+
 snippet iff "if and only if"
 if and only if$0
 endsnippet
 
-snippet pts "psi term" i
-\glspl{pt}$0
+snippet os "order-sorted"
+order-sorted$0
 endsnippet
-
-snippet pt "psi term" i
-\gls{pt}$0
-endsnippet
-
-# snippet os "order-sorted"
-# order-sorted$0
-# endsnippet
 
 snippet kb "knowledge base"
 knowledge base$0
 endsnippet
 
-snippet sparql "SPARQL"
-\gls{sparql}$0
+snippet des "description" i
+description$0
 endsnippet
 
-snippet rdf "RDF"
-\gls{rdf}$0
+snippet dls "description logic" i
+description logics$0
 endsnippet
 
-snippet rdfs "RDFS"
-\gls{rdfs}$0
-endsnippet
-
-snippet owl "OWL"
-\gls{owl}$0
-endsnippet
-
-snippet dls "description logic"
-\glspl{dl}$0
-endsnippet
-
-snippet dl "description logic"
-\gls{dl}$0
+snippet dl "description logic" i
+\dlc{$1}$0
 endsnippet
 
 snippet SW "Semantic Web"
@@ -702,6 +764,14 @@ endsnippet
 
 snippet sw "Semantic Web"
 Semantic Web$0
+endsnippet
+
+snippet "sat" "satisf" r
+satisf$0
+endsnippet
+
+snippet "repr" "represent" r
+represent$0
 endsnippet
 
 snippet "con?" "constraint" r
@@ -716,22 +786,71 @@ snippet oop "object-oriented programming"
 object-oriented programming$0
 endsnippet
 
+snippet nn "neural network"
+neural network$0
+endsnippet
+
+snippet pl "Prolog"
+Prolog$0
+endsnippet
+
+snippet dcp "definite clause program"
+definite clause program$0
+endsnippet
+
 snippet lp "logic programming"
 logic programming$0
+endsnippet
+
+snippet fc "forward-chaining"
+forward-chaining$0
+endsnippet
+
+snippet bc "backward-chaining"
+backward-chaining$0
+endsnippet
+
+snippet td "top-down"
+top-down$0
+endsnippet
+
+snippet bu "bottom-up"
+bottom-up$0
 endsnippet
 
 snippet alc "DL ALC"
 $\mathcal{ALC}$$0
 endsnippet
 
+snippet cx "x1···xn" i
+${1:x}_1 \cdots $1_${2:n}$0
+endsnippet
+
 snippet lx "x1 ... xn" i
 ${1:x}_1, \ldots, $1_${2:n}$0
 endsnippet
 
+snippet leqi "1 < i < n" i
+${1:1}\leq i\leq ${2:n}$0
+endsnippet
+
+
+snippet fori "1 <= i <= n" i
+${1:1} \leq ${2:i} \leq ${3:n}$0
+endsnippet
+
 # other
 
-snippet wrt "with respect to"
-with respect to$0
+snippet Sota "State of the art"
+State of the art$0
+endsnippet
+
+snippet sota "state of the art"
+state of the art$0
+endsnippet
+
+snippet wrt "with respect to" i
+with respect to $0
 endsnippet
 
 # Algorithm
@@ -741,9 +860,9 @@ snippet algo "algpseudocode" b
 \caption{${1:Caption}}
 \label{alg:${2:label}}
 \begin{algorithmic}[1]
-    \Function{${3:Function Name}}{$${4:Function Parameters}$}
-    \State ${5:Function Code}
-    \EndFunction
+  \Function{${3:Function Name}}{$${4:Function Parameters}$}
+  \State ${5:Function Code}
+  \EndFunction
 \end{algorithmic}
 \end{algorithm}
 endsnippet
@@ -758,40 +877,6 @@ snippet son "nth set-of" i
 \textbf{set-of}^n($1)$0
 endsnippet
 
-# GLossaries \gls command
-
-snippet g "gls" i
-\gls{$1}$0
-endsnippet
-
-snippet gs "gls{sort}" i
-\gls{sort}$0
-endsnippet
-
-snippet gt "gls{tag}" i
-\gls{tag}$0
-endsnippet
-
-snippet gf "gls{feat}" i
-\gls{feat}$0
-endsnippet
-
-snippet pg "pgls"
-\pgls{$1}$0
-endsnippet
-
-snippet pgs "pgls*"
-\pgls*{$1}$0
-endsnippet
-
-snippet "gpl?" "glspl" ir
-\glspl{$1}$0
-endsnippet
-
-snippet "gpl?s" "glspl*" ir
-\glspl*{$1}$0
-endsnippet
-
 # Citing
 
 snippet quote "displayquote"
@@ -800,11 +885,11 @@ $0
 \end{displayquote}
 endsnippet
 
-snippet Cr "Clever ref"
+snippet Cr "Clever ref" i
 \Cref{$1}$0
 endsnippet
 
-snippet cr "Clever ref"
+snippet cr "Clever ref" i
 \cref{$1}$0
 endsnippet
 
@@ -855,6 +940,10 @@ endsnippet
 #                                     misc                                     #
 ################################################################################
 
+snippet sb "similarity-based"
+similarity-based $0
+endsnippet
+
 snippet ss "semantic similarity"
 semantic similarity$0
 endsnippet
@@ -871,6 +960,22 @@ snippet vy "Vec y" i
 \vec{y}$0
 endsnippet
 
+snippet wtfs "well-typed feature structure"
+well-typed feature structure$0
+endsnippet
+
+snippet ai "artificial intelligence"
+artificial intelligence$0
+endsnippet
+
+snippet ml "machine learning"
+machine learning$0
+endsnippet
+
+snippet ns "neuro-symbolic"
+neuro-symbolic$0
+endsnippet
+
 snippet wt "well-typed"
 well-typed$0
 endsnippet
@@ -879,17 +984,44 @@ snippet mgu "Most General Unifier"
 most general unifier$0
 endsnippet
 
-
 snippet ifs "Inequated Feature Structure"
 inequated feature structure$0
 endsnippet
 
-snippet fs "Feature Structure"
+snippet fl "feature logic"
+feature logic$0
+endsnippet
+
+snippet fss "feature structures"
+feature structures$0
+endsnippet
+
+snippet FS "Feature Structure"
+Feature Structure$0
+endsnippet
+
+# snippet fa "feature algebra"
+# feature algebra$0
+# endsnippet
+
+snippet fd "feature description"
+feature description$0
+endsnippet
+
+snippet fs "feature structure"
 feature structure$0
+endsnippet
+
+snippet av "attribute-value"
+attribute-value$0
 endsnippet
 
 snippet dnf "Disjunctive Normal Form"
 disjunctive normal form$0
+endsnippet
+
+snippet lca "Lowest Common Ancestor"
+lowest common ancestor$0
 endsnippet
 
 snippet lub "Least Upper Bound"
@@ -900,9 +1032,159 @@ snippet mlb "Maximal Lower Bound"
 maximal lower bound$0
 endsnippet
 
+snippet mgs "Most General Satisfier"
+most general satisfier$0
+endsnippet
 
-snippet GCM "Gian Carlo Milanese"
+snippet cm "Causal Model"
+causal model$0
+endsnippet
+
+snippet scm "Structural Causal Model"
+structural causal model$0
+endsnippet
+
+snippet iid "independent and identically distributed"
+independent and identically distributed$0
+endsnippet
+
+snippet GC "Gian Carlo"
+Gian Carlo$0
+endsnippet
+
+snippet gcm "Gian Carlo Milanese" i
 Gian Carlo Milanese$0
 endsnippet
 
+snippet GCM "Gian Carlo Milanese" i
+Gian Carlo Milanese$0
+endsnippet
 
+snippet SBR "Similarity-Based Reasoning"
+Similarity-Based Reasoning$0
+endsnippet
+
+snippet in "input"
+\input{$0}
+endsnippet
+
+snippet vi "verb"
+\visible<$1>{%
+	$0}
+endsnippet
+
+snippet & "sqcap"
+\sqcap $0
+endsnippet
+
+
+snippet v "sqcup"
+\sqcup $0
+endsnippet
+
+snippet t "todo"
+\todo{$0}
+endsnippet
+
+snippet m "mintinline turtle"
+\m{$1}$0
+endsnippet
+
+snippet sm "mintinline sparql"
+\sm{$1}$0
+endsnippet
+
+
+snippet bs "bigskip"
+\bigskip
+endsnippet
+
+snippet ms "medskip"
+\medskip
+endsnippet
+
+snippet rdf "rdf:" i
+\m{rdf:$1}$0
+endsnippet
+
+snippet rdfs "rdfs:" i
+\m{rdfs:$1}$0
+endsnippet
+
+snippet ttl "minted turtle" b
+\begin{minted}{turtle}
+  $0
+\end{minted}
+endsnippet
+
+snippet sql "minted sparql" b
+\begin{minted}{sparql}
+  $0
+\end{minted}
+endsnippet
+
+snippet sp "SPARQL"
+SPARQL$0
+endsnippet
+
+
+snippet cols "columns"
+\begin{columns}
+	\begin{column}{0.5\textwidth}
+		$0
+	\end{column}
+	\begin{column}{0.5\textwidth}
+	\end{column}
+\end{columns}
+endsnippet
+
+snippet fa "forall"
+\forall
+endsnippet
+
+snippet far "universal restriction"
+\forall \dlc{${1:R}}.\dlc{${2:C}}$0
+endsnippet
+
+snippet ex "exists"
+\exists
+endsnippet
+
+snippet exr "existential restriction"
+\exists \dlc{${1:R}}.\dlc{${2:C}}$0
+endsnippet
+
+snippet leqr "less cardinality restriction"
+\leqr{${1:3}} \dlc{${2:R}}.\dlc{${3:C}}$0
+endsnippet
+
+snippet geqr "greater cardinality restriction"
+\geqr{${1:3}} \dlc{${2:R}}.\dlc{${3:C}}$0
+endsnippet
+
+snippet eqr "exact cardinality restriction"
+\eqr{${1:3}} \dlc{${2:R}}.\dlc{${3:C}}$0
+endsnippet
+
+
+snippet Def "Definition"
+Definition
+endsnippet
+
+snippet def "definition"
+definition
+endsnippet
+
+
+
+snippet as "answer set"
+answer set
+endsnippet
+
+snippet mr "multirow"
+\multirow{2}{*}{ $0 }
+endsnippet
+
+snippet ad "added"
+\added[id=1]{$1}$0
+endsnippet

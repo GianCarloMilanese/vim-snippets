@@ -64,7 +64,6 @@ snippet \ unnumbered equation: \[ ... \]
 	\\[
 		${1:${VISUAL}}
 	\\]
-	$0
 # Equation array
 snippet eqnarray eqnarray environment
 	\\begin{eqnarray}
@@ -220,7 +219,7 @@ snippet under underline text
 snippet over overline text
 	\\overline{${1:${VISUAL:text}}}${0}
 snippet emp emphasize text
-	\\emph{${1:${VISUAL:text}}}${0}
+	\\emph{${1}}${0}
 snippet sc small caps text
 	\\textsc{${1:${VISUAL:text}}}${0}
 #Choosing font
@@ -300,8 +299,7 @@ snippet lim \lim_{}
 snippet frm frame environment
 	\\begin{frame}[${1:c}]
 		\frametitle{${2:title}}
-		\framesubtitle{${3:subtitle}}
-		${0:${VISUAL}}
+		${0}
 	\\end{frame}
 snippet block block environment
 	\\begin{block}{${1:title}}
