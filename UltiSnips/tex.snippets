@@ -80,6 +80,10 @@ snippet table "Table environment" b
 \end{table}
 endsnippet
 
+snippet ig "includegraphics"
+\includegraphics[width=${1:0.8}\textwidth]{${2:name.ext}}$0
+endsnippet
+
 snippet fig "Figure environment" b
 \begin{figure}[${2:htpb}]
   \centering
@@ -627,7 +631,7 @@ snippet tmp "Temp" b
 endsnippet
 
 snippet ip "Inline Python" i
-\ilp{$1}$0
+\ilpy{$1}$0
 endsnippet
 
 snippet ij "Inline Java" i
@@ -755,7 +759,7 @@ description logics$0
 endsnippet
 
 snippet dl "description logic" i
-\dlc{$1}$0
+\dl{$1}$0
 endsnippet
 
 snippet SW "Semantic Web"
@@ -1103,9 +1107,18 @@ snippet ms "medskip"
 \medskip
 endsnippet
 
+# snippet rdf "rdf:" i
+# \m{rdf:$1}$0
+# endsnippet
+
 snippet rdf "rdf:" i
-\m{rdf:$1}$0
+\rdf{$1}$0
 endsnippet
+
+snippet dbp "dbp:" i
+\dbp{$1}$0
+endsnippet
+
 
 snippet rdfs "rdfs:" i
 \m{rdfs:$1}$0
@@ -1129,7 +1142,7 @@ endsnippet
 
 
 snippet cols "columns"
-\begin{columns}
+\begin{columns}[T]
 	\begin{column}{0.5\textwidth}
 		$0
 	\end{column}
@@ -1175,8 +1188,6 @@ snippet def "definition"
 definition
 endsnippet
 
-
-
 snippet as "answer set"
 answer set
 endsnippet
@@ -1187,4 +1198,12 @@ endsnippet
 
 snippet ad "added"
 \added[id=1]{$1}$0
+endsnippet
+
+snippet gc "gc"
+\gc{$1}$0
+endsnippet
+
+snippet gcc "gcc"
+\gcc{$1}$0
 endsnippet
